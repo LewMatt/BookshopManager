@@ -1,73 +1,131 @@
 #include<iostream>
 #include<string>
+#include<mysql.h>
 #include "Admin.h"
 #include "Client.h"
 #include "Book.h"
 #include "User.h"
+
 using namespace std;
 
-int main()
+const char* sql_host_name = "localhost";
+const char* sql_user_name = "root";
+const char* sql_password = "password";
+const char* sql_db_name = "bookshop_db";
+const unsigned int sql_port = 3306;
+const char* sql_socket = NULL;
+const int sql_flags = 0;
+
+bool loggedIn = false;
+string loggedUsername;
+string loggedPassword;
+
+void sendQueryPrint(string x)
 {
-	Admin user0("admin", "admin");
-	Client user1("mati", "123");
-	Book book1("Harry Potter", "JK Rowling", "fantasy", "2010");
-	Book book2("Zew Cthulhu", "Lovecraft", "fantasy", "2005");
-	Book book3("DaVinci", "Leonardo", "criminal", "2000");
-	Book my_books[3] = {book1,book2,book3};
-	void LoginFunc();
-	bool loggedIn=false;
-	User* user_logged =NULL;
+	MYSQL* handler;
+	MYSQL_RES* qRes;
+	MYSQL_ROW row;
 
-	while (true)
+	handler = mysql_init(NULL);
+	mysql_real_connect(handler, sql_host_name, sql_user_name, sql_password, sql_db_name, sql_port, sql_socket, sql_flags);
+
+	mysql_query(handler, x.c_str());
+	qRes = mysql_store_result(handler);
+
+	int num_fields = mysql_num_fields(qRes);
+
+	while ((row = mysql_fetch_row(qRes)))
 	{
-		while (loggedIn == false)
+		for (int i = 0; i < num_fields; i++)
 		{
-			string l_username, l_password;
-			cout << endl << "Login: ";
-			getline(cin, l_username);
-			cout << "Password: ";
-			getline(cin, l_password);
-
-			if (l_username == user0.getUsername() && l_password == user0.getPassword())
+			if (row[i] != NULL)
 			{
-				cout << endl << "Hello " << user0.getUsername() << endl;
-				user_logged = &user0;
-				loggedIn = true;
-			}
-			else if (l_username == user1.getUsername() && l_password == user1.getPassword())
-			{
-				cout << endl << "Hello " << user1.getUsername() << endl;
-				user_logged = &user1;
-				loggedIn = true;
+				cout << row[i] << " ";
 			}
 			else
 			{
-				cout << endl << "Invalid input.Try again." << endl;
+				cout << "NULL" << endl;
 			}
 		}
+		cout << endl;
+	}
 
-		while (loggedIn == true)
+	if (qRes != NULL)
+	{
+		mysql_free_result(qRes);
+	}
+	mysql_close(handler);
+}
+
+string sendQueryReturn(string x)
+{
+	MYSQL* handler;
+	MYSQL_RES* qRes;
+	MYSQL_ROW row;
+	string retVal;
+
+
+	handler = mysql_init(NULL);
+	mysql_real_connect(handler, sql_host_name, sql_user_name, sql_password, sql_db_name, sql_port, sql_socket, sql_flags);
+
+	mysql_query(handler, x.c_str());
+	qRes = mysql_store_result(handler);
+
+	int num_fields = mysql_num_fields(qRes);
+
+	row = mysql_fetch_row(qRes);
+
+	retVal = row[0];
+
+	if (qRes != NULL)
+	{
+		mysql_free_result(qRes);
+	}
+	mysql_close(handler);
+	return retVal;
+}
+
+
+void loginFunc()
+{
+	while (true)
+	{
+		string username, password,userQ,passQ,logQ;
+		cout << endl << "Username: ";
+		getline(cin, username);
+		cout << "Password: ";
+		getline(cin, password);
+
+		userQ = "'" + username + "'";
+		passQ = "'" + password + "'";
+		logQ = "SELECT COUNT(*) FROM users WHERE user_name = " + userQ + " AND user_password = " + passQ + ";";
+
+		if (sendQueryReturn(logQ.c_str()) == "1")
 		{
-			int choice = 0;
-			user_logged->showOptions();
-			choice = user_logged->whatOption();
-			if (choice == 0)
-			{
-				continue;
-			}
-			else if (choice == 1)
-			{
-				user_logged->showUserDetails();
-			}
-			else if (choice == 2)
-			{
-				user_logged->showBooks(my_books);
-			}
-			else if (choice == 9)
-			{
-				loggedIn = false;
-			}
+			cout << endl << "hello " << username << endl;
+			loggedUsername = username;
+			loggedPassword = password;
+			break;
 		}
+		else
+		{
+			cout << endl << "Invalid input. Try again." << endl;
+		}
+	}
+	loggedIn = true;
+}
+
+int main()
+{
+	while (loggedIn == false)
+	{
+		loginFunc();
+	}
+
+	while (loggedIn == true)
+	{
+		cout << endl<<"logged in" << endl;
+		break;
 	}
 
 	return 0;

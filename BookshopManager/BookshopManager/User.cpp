@@ -16,6 +16,11 @@ string User::getUsername()
 	return username;
 }
 
+string User::getType()
+{
+	return this->userType;
+}
+
 void User::setFirstName()
 {
 	string name;
@@ -50,6 +55,7 @@ void User::setNumber()
 
 void User::showUserDetails()
 {
+	
 	cout << endl << "USER DETAILS" << endl;
 	cout << endl << "First name: " << this->first_name << endl;
 	cout << "Last name: " << this->last_name << endl;
@@ -123,7 +129,7 @@ int User::whatOption()
 }
 
 void User::showBooks(Book x[])
-{
+{	
 	cout << endl;
 	for (int i = 0; i < 3; i++)
 	{

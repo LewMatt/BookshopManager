@@ -10,12 +10,13 @@ class User
 protected:
 	string username;
 	string password;
-	string userType;
+	string userType = " ";
 	string first_name = "", last_name = "", email = "", phone_number = "";
 public:
 	User(string, string);
 	string getUsername();
 	string getPassword();
+	string getType();
 	void setFirstName();
 	void setLastName();
 	void setEmail();
