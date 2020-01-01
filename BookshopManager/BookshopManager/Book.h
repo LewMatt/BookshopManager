@@ -13,6 +13,7 @@ protected:
 	string book_release_date;
 public:
 	Book(string, string, string, string);
+	~Book();
 	string getTitle();
 	string getAuthor();
 	string getBookType();

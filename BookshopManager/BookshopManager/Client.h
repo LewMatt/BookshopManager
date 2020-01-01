@@ -6,7 +6,12 @@ class Client : public User
 {
 public:
 	Client(string, string);
+	~Client();
+	int showMenu();
+	void showBooks();
+	void sendQueryPrint(string);
+	int sendQueryRetInt(string);
+	string sendQueryRetStr(string);
 };
 
 #endif
-

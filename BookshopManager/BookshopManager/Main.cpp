@@ -56,15 +56,12 @@ void sendQueryPrint(string x)
 	}
 	mysql_close(handler);
 }
-
-string sendQueryReturn(string x)
+string sendQueryRetStr(string x)
 {
 	MYSQL* handler;
 	MYSQL_RES* qRes;
 	MYSQL_ROW row;
 	string retVal;
-
-
 	handler = mysql_init(NULL);
 	mysql_real_connect(handler, sql_host_name, sql_user_name, sql_password, sql_db_name, sql_port, sql_socket, sql_flags);
 
@@ -73,15 +70,23 @@ string sendQueryReturn(string x)
 
 	int num_fields = mysql_num_fields(qRes);
 
-	row = mysql_fetch_row(qRes);
-
-	retVal = row[0];
+	while ((row = mysql_fetch_row(qRes)))
+	{
+		for (int i = 0; i < num_fields; i++)
+		{
+			if (row[i] != NULL)
+			{
+				retVal = row[0];
+			}
+		}
+	}
 
 	if (qRes != NULL)
 	{
 		mysql_free_result(qRes);
 	}
 	mysql_close(handler);
+
 	return retVal;
 }
 
@@ -90,7 +95,7 @@ void loginFunc()
 {
 	while (true)
 	{
-		string username, password,userQ,passQ,logQ;
+		string username, password, userQ, passQ, logQ;
 		cout << endl << "Username: ";
 		getline(cin, username);
 		cout << "Password: ";
@@ -100,33 +105,91 @@ void loginFunc()
 		passQ = "'" + password + "'";
 		logQ = "SELECT COUNT(*) FROM users WHERE user_name = " + userQ + " AND user_password = " + passQ + ";";
 
-		if (sendQueryReturn(logQ.c_str()) == "1")
+		if (sendQueryRetStr(logQ.c_str()) == "1")
 		{
-			cout << endl << "hello " << username << endl;
+			cout << "hello " << username << endl;
 			loggedUsername = username;
 			loggedPassword = password;
 			break;
 		}
 		else
 		{
-			cout << endl << "Invalid input. Try again." << endl;
+			cout << "Invalid input. Try again." << endl;
 		}
 	}
-	loggedIn = true;
 }
 
 int main()
 {
-	while (loggedIn == false)
+	while (true)
 	{
-		loginFunc();
+		while (loggedIn == false)
+		{
+			loginFunc();
+			loggedIn = true;
+		}
+
+		while (loggedIn == true)
+		{
+			Admin* admin_obj = new Admin(loggedUsername, loggedPassword);
+			Client* client_obj = new Client(loggedUsername, loggedPassword);
+			bool adminLoggedIn = false;
+
+			if (loggedUsername == "admin")
+			{
+				adminLoggedIn = true;
+			}
+
+			if (adminLoggedIn)
+			{
+
+				switch (admin_obj->showMenu())
+				{
+				case 1:
+				{
+					admin_obj->showBooks();
+					break;
+				}
+				case 2:
+				{
+					break;
+				}
+				case 9:
+				{
+					cout << endl << "Logged out" << endl;
+					delete admin_obj;
+					delete client_obj;
+					loggedIn = false;
+					break;
+				}
+				}
+			}
+			else
+			{
+				switch (client_obj->showMenu())
+				{
+				case 1:
+				{
+					client_obj->showBooks();
+					break;
+				}
+				case 2:
+				{
+					break;
+				}
+				case 9:
+				{
+					cout << endl << "Logged out" << endl;
+					delete admin_obj;
+					delete client_obj;
+					loggedIn = false;
+					break;
+				}
+				}
+			}
+		}
 	}
 
-	while (loggedIn == true)
-	{
-		cout << endl<<"logged in" << endl;
-		break;
-	}
 
 	return 0;
 }

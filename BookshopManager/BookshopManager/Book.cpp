@@ -27,3 +27,8 @@ string Book::getReleaseDate()
 {
 	return this->book_release_date;
 }
+
+Book::~Book()
+{
+
+}
