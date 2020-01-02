@@ -20,42 +20,6 @@ bool loggedIn = false;
 string loggedUsername;
 string loggedPassword;
 
-void sendQueryPrint(string x)
-{
-	MYSQL* handler;
-	MYSQL_RES* qRes;
-	MYSQL_ROW row;
-
-	handler = mysql_init(NULL);
-	mysql_real_connect(handler, sql_host_name, sql_user_name, sql_password, sql_db_name, sql_port, sql_socket, sql_flags);
-
-	mysql_query(handler, x.c_str());
-	qRes = mysql_store_result(handler);
-
-	int num_fields = mysql_num_fields(qRes);
-
-	while ((row = mysql_fetch_row(qRes)))
-	{
-		for (int i = 0; i < num_fields; i++)
-		{
-			if (row[i] != NULL)
-			{
-				cout << row[i] << " ";
-			}
-			else
-			{
-				cout << "NULL" << endl;
-			}
-		}
-		cout << endl;
-	}
-
-	if (qRes != NULL)
-	{
-		mysql_free_result(qRes);
-	}
-	mysql_close(handler);
-}
 string sendQueryRetStr(string x)
 {
 	MYSQL* handler;
@@ -90,7 +54,6 @@ string sendQueryRetStr(string x)
 	return retVal;
 }
 
-
 void loginFunc()
 {
 	while (true)
@@ -107,20 +70,20 @@ void loginFunc()
 
 		if (sendQueryRetStr(logQ.c_str()) == "1")
 		{
-			cout << "hello " << username << endl;
 			loggedUsername = username;
 			loggedPassword = password;
 			break;
 		}
 		else
 		{
-			cout << "Invalid input. Try again." << endl;
+			cout << endl << "Invalid input. Try again." << endl;
 		}
 	}
 }
 
 int main()
 {
+	cout << "||| MATT'S BOOKSHOP MANAGER |||" << endl;
 	while (true)
 	{
 		while (loggedIn == false)
@@ -170,11 +133,17 @@ int main()
 				{
 				case 1:
 				{
-					client_obj->showBooks();
+					client_obj->showBooks(client_obj);
 					break;
 				}
 				case 2:
 				{
+					client_obj->showMyBooks(client_obj);
+					break;
+				}
+				case 3:
+				{
+					client_obj->showMyDetails(client_obj);
 					break;
 				}
 				case 9:

@@ -8,7 +8,9 @@ public:
 	Client(string, string);
 	~Client();
 	int showMenu();
-	void showBooks();
+	void showBooks(Client*);
+	void showMyBooks(Client*);
+	void showMyDetails(Client*);
 };
 
 #endif
