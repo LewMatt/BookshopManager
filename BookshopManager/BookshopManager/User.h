@@ -21,6 +21,8 @@ public:
 	string getLastName();
 	string getEmail();
 	string getPhoneNumber();
+	string sendQueryRetStr(string);
+	int sendQueryRetInt(string);
 };
 
 #endif

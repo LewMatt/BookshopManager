@@ -9,9 +9,6 @@ public:
 	~Client();
 	int showMenu();
 	void showBooks();
-	void sendQueryPrint(string);
-	int sendQueryRetInt(string);
-	string sendQueryRetStr(string);
 };
 
 #endif

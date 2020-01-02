@@ -6,8 +6,6 @@ class Admin : public User
 {
 public:
 	Admin(string, string);
-	void sendQueryPrint(string);
-	string sendQueryRetStr(string);
 	int showMenu();
 	void showBooks();
 	~Admin();
