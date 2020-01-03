@@ -132,9 +132,7 @@ void Client::showBooks(Client * cl_obj)
 	cout << "1.Borrow a book" << endl;
 	cout << "2.Return to menu" << endl;
 
-	bool run = true;
-
-	while (run)
+	while (true)
 	{
 		string choice;
 		cout << endl <<"What to do: ";
@@ -161,27 +159,27 @@ void Client::showBooks(Client * cl_obj)
 					string var2 = "DELETE FROM books WHERE book_id='" + choice + "';";
 					sendQuery(var2.c_str());
 					delete book_obj;
-					run = false;
 					break;
 				}
 			}
+			break;
 
 		}
 		else if (choice == "2")
 		{
-			for (int i = 0; i < tab_rows; i++)
-			{
-				delete[] tab[i];
-			}
-			delete[] tab;
-
-			run = false;
+			break;
 		}
 		else
 		{
 			cout << endl << "Invalid input. Try again." << endl;
 		}
 	}
+
+	for (int i = 0; i < tab_rows; i++)
+	{
+		delete[] tab[i];
+	}
+	delete[] tab;
 }
 
 void Client::showMyBooks(Client *obj)
@@ -323,6 +321,12 @@ void Client::showMyBooks(Client *obj)
 				cout << endl <<"Invalid input. Try again." << endl;
 			}
 		}
+
+		for (int i = 0; i < tab_rows; i++)
+		{
+			delete[] books_tab[i];
+		}
+		delete[] books_tab;
 	}
 
 }

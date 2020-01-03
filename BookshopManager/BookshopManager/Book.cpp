@@ -14,9 +14,18 @@ Book::Book(string b)
 	this->book_release_date = sendQueryRetStr(var.c_str());
 }
 
+Book::Book(string b_id, string b_title, string b_author, string b_type, string b_release_date)
+{
+	this->book_id = b_id;
+	this->book_title = b_title;
+	this->book_author = b_author;
+	this->book_type = b_type;
+	this->book_release_date = b_release_date;
+}
+
 string Book::getBookId()
 {
-	return book_id;
+	return this->book_id;
 }
 
 string Book::getTitle()

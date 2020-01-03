@@ -15,6 +15,7 @@ protected:
 	string book_release_date;
 public:
 	Book(string);
+	Book(string, string, string, string, string);
 	~Book();
 	string getBookId();
 	string getTitle();

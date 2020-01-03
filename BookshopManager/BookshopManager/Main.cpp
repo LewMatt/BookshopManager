@@ -83,11 +83,14 @@ void loginFunc()
 
 int main()
 {
-	cout << "||| MATT'S BOOKSHOP MANAGER |||" << endl;
+	
 	while (true)
 	{
+		system("CLS");
+		cout << "||| MATT'S BOOKSHOP MANAGER |||" << endl;
 		while (loggedIn == false)
 		{
+			
 			loginFunc();
 			loggedIn = true;
 		}
@@ -115,11 +118,16 @@ int main()
 				}
 				case 2:
 				{
+					cout << "Not ready yet." << endl;
+					break;
+				}
+				case 3:
+				{
+					cout << "Not ready yet." << endl;
 					break;
 				}
 				case 9:
 				{
-					cout << endl << "Logged out" << endl;
 					delete admin_obj;
 					delete client_obj;
 					loggedIn = false;
