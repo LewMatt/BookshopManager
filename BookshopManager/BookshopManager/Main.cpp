@@ -1,20 +1,12 @@
 #include<iostream>
 #include<string>
-#include<mysql.h>
+#include<stdlib.h>
+#include <mysql.h>
 #include "Admin.h"
 #include "Client.h"
 #include "Book.h"
 #include "User.h"
-
 using namespace std;
-
-const char* sql_host_name = "localhost";
-const char* sql_user_name = "root";
-const char* sql_password = "password";
-const char* sql_db_name = "bookshop_db";
-const unsigned int sql_port = 3306;
-const char* sql_socket = NULL;
-const int sql_flags = 0;
 
 bool loggedIn = false;
 string loggedUsername;
@@ -22,10 +14,19 @@ string loggedPassword;
 
 string sendQueryRetStr(string x)
 {
+	const char* sql_host_name = "localhost";
+	const char* sql_user_name = "root";
+	const char* sql_password = "password";
+	const char* sql_db_name = "bookshop_db";
+	const unsigned int sql_port = 3306;
+	const char* sql_socket = NULL;
+	const int sql_flags = 0;
+
 	MYSQL* handler;
 	MYSQL_RES* qRes;
 	MYSQL_ROW row;
 	string retVal;
+
 	handler = mysql_init(NULL);
 	mysql_real_connect(handler, sql_host_name, sql_user_name, sql_password, sql_db_name, sql_port, sql_socket, sql_flags);
 
@@ -36,13 +37,7 @@ string sendQueryRetStr(string x)
 
 	while ((row = mysql_fetch_row(qRes)))
 	{
-		for (int i = 0; i < num_fields; i++)
-		{
-			if (row[i] != NULL)
-			{
-				retVal = row[0];
-			}
-		}
+		retVal = row[0];
 	}
 
 	if (qRes != NULL)
@@ -54,8 +49,167 @@ string sendQueryRetStr(string x)
 	return retVal;
 }
 
+int sendQueryRetInt(string x)
+{
+	const char* sql_host_name = "localhost";
+	const char* sql_user_name = "root";
+	const char* sql_password = "password";
+	const char* sql_db_name = "bookshop_db";
+	const unsigned int sql_port = 3306;
+	const char* sql_socket = NULL;
+	const int sql_flags = 0;
+
+	MYSQL* handler;
+	MYSQL_RES* qRes;
+	MYSQL_ROW row;
+
+	handler = mysql_init(NULL);
+	mysql_real_connect(handler, sql_host_name, sql_user_name, sql_password, sql_db_name, sql_port, sql_socket, sql_flags);
+
+	mysql_query(handler, x.c_str());
+	qRes = mysql_store_result(handler);
+
+	int num_fields = mysql_num_fields(qRes);
+
+	string qOutput;
+
+	while ((row = mysql_fetch_row(qRes)))
+	{
+		qOutput = row[0];
+	}
+
+	const char* str = qOutput.c_str();
+	int retVal;
+	sscanf_s(str, "%d", &retVal);
+
+	if (qRes != NULL)
+	{
+		mysql_free_result(qRes);
+	}
+	mysql_close(handler);
+
+	return retVal;
+}
+
+void sendQuery(string x)
+{
+	const char* sql_host_name = "localhost";
+	const char* sql_user_name = "root";
+	const char* sql_password = "password";
+	const char* sql_db_name = "bookshop_db";
+	const unsigned int sql_port = 3306;
+	const char* sql_socket = NULL;
+	const int sql_flags = 0;
+
+	MYSQL* handler;
+	MYSQL_RES* qRes;
+
+	handler = mysql_init(NULL);
+	mysql_real_connect(handler, sql_host_name, sql_user_name, sql_password, sql_db_name, sql_port, sql_socket, sql_flags);
+
+	mysql_query(handler, x.c_str());
+	qRes = mysql_store_result(handler);
+
+	if (qRes != NULL)
+	{
+		mysql_free_result(qRes);
+	}
+	mysql_close(handler);
+}
+
+void createAccount()
+{
+	system("CLS");
+	cout << "NEW USER CREATION" << endl;
+	string newUsername, newPassword, newPasswordAgain, newFirstName, newLastName, newEmail, newPhoneNumber;
+	string qText = "SELECT COUNT(*) FROM users;";
+	int newId = sendQueryRetInt(qText.c_str());
+
+	while (true)
+	{
+		cout << endl << "Username: ";
+		getline(cin, newUsername);
+		string usernameQuery = "SELECT COUNT(*) FROM users WHERE user_name = '" + newUsername + "';";
+		int result = sendQueryRetInt(usernameQuery.c_str());
+		if (result == 0)
+		{
+			break;
+		}
+		else
+		{
+			cout << endl << "Username is taken. Try different one." << endl;
+		}
+	}
+
+	while (true)
+	{
+		cout << "Password: ";
+		getline(cin, newPassword);
+		cout << "Password again: ";
+		getline(cin, newPasswordAgain);
+
+		if (newPassword == newPasswordAgain)
+		{
+			break;
+		}
+		else
+		{
+			cout << endl << "Passwords do not match. Try again." << endl << endl;
+		}
+	}
+
+	cout << "First name: ";
+	getline(cin, newFirstName);
+	cout << "Last name: ";
+	getline(cin, newLastName);
+	cout << "Email: ";
+	getline(cin, newEmail);
+	cout << "Phone number: ";
+	getline(cin, newPhoneNumber);
+
+	string newIdStr = to_string(newId);
+	string newAccQuery = "INSERT INTO users (user_id,user_name,user_password,first_name,last_name,email,phone_number) VALUES ('" + newIdStr + "','" + newUsername + "','" + newPassword + "','" + newFirstName + "','" + newLastName + "','" + newEmail + "','" + newPhoneNumber + "');";
+	sendQuery(newAccQuery.c_str());
+}
+
+void loginOptions()
+{
+	cout << endl;
+	cout << "1.Log in." << endl;
+	cout << "2.Create a new account." << endl;
+	cout << "9.Exit." << endl;
+
+	while (true)
+	{
+		string choice;
+		cout << endl << "What to do: ";
+		getline(cin, choice);
+
+		if (choice == "1")
+		{
+			break;
+		}
+		else if (choice == "2")
+		{
+			createAccount();
+			break;
+		}
+		else if (choice == "9")
+		{
+			exit(0);
+		}
+		else
+		{
+			cout << endl << "Invalid input. Try again." << endl;
+		}
+	}
+	system("CLS");
+}
+
 void loginFunc()
 {
+	cout << "LOG IN" << endl;
+
 	while (true)
 	{
 		string username, password, userQ, passQ, logQ;
@@ -79,20 +233,20 @@ void loginFunc()
 			cout << endl << "Invalid input. Try again." << endl;
 		}
 	}
+	loggedIn = true;
 }
 
 int main()
 {
-	
 	while (true)
 	{
 		system("CLS");
 		cout << "||| MATT'S BOOKSHOP MANAGER |||" << endl;
+
 		while (loggedIn == false)
 		{
-			
+			loginOptions();
 			loginFunc();
-			loggedIn = true;
 		}
 
 		while (loggedIn == true)
@@ -166,7 +320,4 @@ int main()
 			}
 		}
 	}
-
-
-	return 0;
 }

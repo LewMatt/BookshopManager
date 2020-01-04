@@ -54,7 +54,7 @@ int Client::showMenu()
 	}
 }
 
-void Client::showBooks(Client * cl_obj)
+void Client::showBooks(Client* cl_obj)
 {
 	system("CLS");
 	int tab_cols = 5;
@@ -69,7 +69,7 @@ void Client::showBooks(Client * cl_obj)
 
 	string tab_h[5] = { "id","Title","Author","Type","Release date" };
 
-	for (int i = 0; i < tab_rows ; i++)
+	for (int i = 0; i < tab_rows; i++)
 	{
 		string var = to_string(i);
 
@@ -110,7 +110,7 @@ void Client::showBooks(Client * cl_obj)
 			}
 		}
 	}
-	
+
 	for (int i = 0; i < 5; i++)
 	{
 		cout.width(24);
@@ -128,14 +128,14 @@ void Client::showBooks(Client * cl_obj)
 		cout << endl;
 	}
 	cout << endl;
-	cout << endl << "OPTIONS" << endl<<endl;
+	cout << endl << "OPTIONS" << endl << endl;
 	cout << "1.Borrow a book" << endl;
 	cout << "2.Return to menu" << endl;
 
 	while (true)
 	{
 		string choice;
-		cout << endl <<"What to do: ";
+		cout << endl << "What to do: ";
 		getline(cin, choice);
 
 		if (choice == "1")
@@ -149,7 +149,7 @@ void Client::showBooks(Client * cl_obj)
 				int res = sendQueryRetInt(querytext.c_str());
 				if (res == 0)
 				{
-					cout << endl <<"Invalid input. Try again." << endl;
+					cout << endl << "Invalid input. Try again." << endl;
 				}
 				else
 				{
@@ -185,7 +185,7 @@ void Client::showBooks(Client * cl_obj)
 	delete[] tab;
 }
 
-void Client::showMyBooks(Client *obj)
+void Client::showMyBooks(Client* obj)
 {
 	string tab_h[5] = { "id","Title","Author","Type","Release date" };
 
@@ -230,7 +230,7 @@ void Client::showMyBooks(Client *obj)
 				{
 				case 0:
 				{
-					string element = "SELECT book_id FROM books_"+obj->getUsername()+" limit " + var + ",1;";
+					string element = "SELECT book_id FROM books_" + obj->getUsername() + " limit " + var + ",1;";
 					books_tab[i][j] = sendQueryRetStr(element.c_str());
 					break;
 				}
@@ -289,7 +289,7 @@ void Client::showMyBooks(Client *obj)
 			string choice;
 			cout << endl << "What to do: ";
 			getline(cin, choice);
-			
+
 			if (choice == "1")
 			{
 				while (true)
@@ -308,7 +308,7 @@ void Client::showMyBooks(Client *obj)
 						Book* book_obj = new Book(input);
 						string var = "INSERT INTO books (book_id,name,author,type,release_date) VALUES ('" + book_obj->getBookId() + "','" + book_obj->getTitle() + "','" + book_obj->getAuthor() + "','" + book_obj->getBookType() + "','" + book_obj->getReleaseDate() + "');";
 						sendQuery(var.c_str());
-						string var2 = "DELETE FROM books_"+obj->getUsername()+" WHERE book_id='" + input + "';";
+						string var2 = "DELETE FROM books_" + obj->getUsername() + " WHERE book_id='" + input + "';";
 						sendQuery(var2.c_str());
 						string var3 = "DELETE FROM books_borrowed WHERE book_id= '" + input + "';";
 						sendQuery(var3.c_str());
@@ -324,7 +324,7 @@ void Client::showMyBooks(Client *obj)
 			}
 			else
 			{
-				cout << endl <<"Invalid input. Try again." << endl;
+				cout << endl << "Invalid input. Try again." << endl;
 			}
 		}
 
@@ -337,7 +337,7 @@ void Client::showMyBooks(Client *obj)
 
 }
 
-void Client::showMyDetails(Client *obj)
+void Client::showMyDetails(Client* obj)
 {
 	system("CLS");
 	string user_det_h[5] = { "Username","First name","Last name","Email","Phone number" };
@@ -354,7 +354,7 @@ void Client::showMyDetails(Client *obj)
 		cout.width(24);
 		cout << left << user_det[i];
 	}
-	cout << endl<<endl;
+	cout << endl << endl;
 
 	cout << endl << "OPTIONS" << endl << endl;
 	cout << "1.Change details." << endl;
@@ -364,11 +364,11 @@ void Client::showMyDetails(Client *obj)
 	while (true)
 	{
 		string choice;
-		cout << endl <<"What to do: ";
+		cout << endl << "What to do: ";
 		getline(cin, choice);
 		if (choice == "1")
 		{
-			cout << endl << "1.Change first name."<<endl;
+			cout << endl << "1.Change first name." << endl;
 			cout << "2.Change last name." << endl;
 			cout << "3.Change email." << endl;
 			cout << "4.Change phone number." << endl;
@@ -376,11 +376,11 @@ void Client::showMyDetails(Client *obj)
 			while (true)
 			{
 				string ch;
-				cout << endl <<"Choice: ";
+				cout << endl << "Choice: ";
 				getline(cin, ch);
 				if (ch == "1")
 				{
-					cout << endl <<"New first name: ";
+					cout << endl << "New first name: ";
 					string inp;
 					getline(cin, inp);
 					string que = "UPDATE users SET first_name = '" + inp + "' where user_name = '" + obj->getUsername() + "';";
@@ -389,7 +389,7 @@ void Client::showMyDetails(Client *obj)
 				}
 				else if (ch == "2")
 				{
-					cout << endl <<"New last name: ";
+					cout << endl << "New last name: ";
 					string inp;
 					getline(cin, inp);
 					string que = "UPDATE users SET last_name = '" + inp + "' where user_name = '" + obj->getUsername() + "';";
@@ -426,7 +426,7 @@ void Client::showMyDetails(Client *obj)
 			while (true)
 			{
 				string curr_pw;
-				cout << endl <<"Current password: ";
+				cout << endl << "Current password: ";
 				getline(cin, curr_pw);
 				string pw_check = "SELECT user_password FROM users WHERE user_name ='" + obj->getUsername() + "';";
 				string act_pw = sendQueryRetStr(pw_check.c_str());
@@ -447,7 +447,7 @@ void Client::showMyDetails(Client *obj)
 						}
 						else
 						{
-							cout << endl <<"Passwords don't match. Try again." << endl;
+							cout << endl << "Passwords don't match. Try again." << endl;
 						}
 					}
 					break;
@@ -456,7 +456,7 @@ void Client::showMyDetails(Client *obj)
 				{
 					cout << endl << "Invalid current password. Try again." << endl;
 				}
-				
+
 			}
 			break;
 		}

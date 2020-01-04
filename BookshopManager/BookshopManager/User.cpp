@@ -72,13 +72,7 @@ string User::sendQueryRetStr(string x)
 
 	while ((row = mysql_fetch_row(qRes)))
 	{
-		for (int i = 0; i < num_fields; i++)
-		{
-			if (row[i] != NULL)
-			{
-				retVal = row[0];
-			}
-		}
+		retVal = row[0];
 	}
 
 	if (qRes != NULL)
@@ -116,13 +110,7 @@ int User::sendQueryRetInt(string x)
 
 	while ((row = mysql_fetch_row(qRes)))
 	{
-		for (int i = 0; i < num_fields; i++)
-		{
-			if (row[i] != NULL)
-			{
-				qOutput = row[0];
-			}
-		}
+		qOutput = row[0];
 	}
 
 	const char* str = qOutput.c_str();
@@ -150,7 +138,6 @@ void User::sendQuery(string x)
 
 	MYSQL* handler;
 	MYSQL_RES* qRes;
-	MYSQL_ROW row;
 
 	handler = mysql_init(NULL);
 	mysql_real_connect(handler, sql_host_name, sql_user_name, sql_password, sql_db_name, sql_port, sql_socket, sql_flags);
@@ -158,11 +145,9 @@ void User::sendQuery(string x)
 	mysql_query(handler, x.c_str());
 	qRes = mysql_store_result(handler);
 
-
 	if (qRes != NULL)
 	{
 		mysql_free_result(qRes);
 	}
 	mysql_close(handler);
-
 }

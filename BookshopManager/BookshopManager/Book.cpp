@@ -74,13 +74,7 @@ string Book::sendQueryRetStr(string x)
 
 	while ((row = mysql_fetch_row(qRes)))
 	{
-		for (int i = 0; i < num_fields; i++)
-		{
-			if (row[i] != NULL)
-			{
-				retVal = row[0];
-			}
-		}
+		retVal = row[0];
 	}
 
 	if (qRes != NULL)

@@ -13,7 +13,7 @@ protected:
 	string user_id;
 	string user_name;
 	string user_password;
-	string first_name = "", last_name = "", email = "", phone_number = "";
+	string first_name, last_name, email, phone_number;
 public:
 	User(string, string);
 	string getUserId();

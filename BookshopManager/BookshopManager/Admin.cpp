@@ -142,7 +142,7 @@ void Admin::showBooks()
 		if (choice == "1")
 		{
 			string b_id, b_title, b_author, b_type, b_release_date;
-			
+
 			while (true)
 			{
 				string x;
@@ -160,7 +160,7 @@ void Admin::showBooks()
 					break;
 				}
 			}
-			
+
 			cout << "Book title: ";
 			getline(cin, b_title);
 			cout << "Author: ";
@@ -200,7 +200,7 @@ void Admin::showBooks()
 
 void Admin::showBorrowedBooks()
 {
-	string tab_h[4] = { "Book id","Title","Client id","Username"};
+	string tab_h[4] = { "Book id","Title","Client id","Username" };
 
 	string rowsQ = "SELECT COUNT(*) FROM books_borrowed;";
 	int tab_rows = sendQueryRetInt(rowsQ.c_str());
@@ -316,7 +316,7 @@ void Admin::showBorrowedBooks()
 
 void Admin::showClients()
 {
-	string tab_h[6] = { "User id","Username","First name","Last name","Email","Phone number"};
+	string tab_h[6] = { "User id","Username","First name","Last name","Email","Phone number" };
 	string rowsQ = "SELECT COUNT(*) FROM users;";
 	int tab_rows = sendQueryRetInt(rowsQ.c_str()) - 1;
 
@@ -328,7 +328,7 @@ void Admin::showClients()
 
 	for (int i = 0; i < tab_rows; i++)
 	{
-		string var = to_string(i+1);
+		string var = to_string(i + 1);
 
 		for (int j = 0; j < 6; j++)
 		{
