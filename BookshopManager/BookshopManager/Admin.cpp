@@ -3,7 +3,7 @@
 Admin::Admin(string user_name, string user_password) : User(user_name, user_password)
 {
 	string userIdQuery = "SELECT user_id FROM users WHERE user_name = '" + this->user_name + "';";
-	this->user_id = sendQueryRetInt(userIdQuery.c_str());
+	this->user_id = sendQueryRetStr(userIdQuery.c_str());
 	string firstNameQuery = "SELECT first_name FROM users WHERE user_name = '" + this->user_name + "';";
 	this->first_name = sendQueryRetStr(firstNameQuery.c_str());
 	string lastNameQuery = "SELECT last_name FROM users WHERE user_name = '" + this->user_name + "';";
@@ -128,6 +128,7 @@ void Admin::showBooks()
 		cout << endl;
 	}
 
+	cout << endl;
 	cout << endl << "OPTIONS" << endl << endl;
 	cout << "1.Add a new book." << endl;
 	cout << "2.Return to menu." << endl;
@@ -195,6 +196,226 @@ void Admin::showBooks()
 		delete[] tab[i];
 	}
 	delete[] tab;
+}
+
+void Admin::showBorrowedBooks()
+{
+	string tab_h[4] = { "Book id","Title","Client id","Username"};
+
+	string rowsQ = "SELECT COUNT(*) FROM books_borrowed;";
+	int tab_rows = sendQueryRetInt(rowsQ.c_str());
+
+	if (tab_rows == 0)
+	{
+		system("CLS");
+		cout << "There are no books borrowed." << endl << endl;
+		cout << "Enter 1 to return." << endl;
+		while (true)
+		{
+			string choice;
+			cout << endl << ": ";
+			getline(cin, choice);
+			if (choice == "1")
+			{
+				break;
+			}
+			else
+			{
+				cout << endl << "Invalid input.Try again." << endl;
+			}
+		}
+	}
+	else
+	{
+		string** books_tab = new string * [tab_rows];
+		for (int i = 0; i < tab_rows; i++)
+		{
+			books_tab[i] = new string[4];
+		}
+
+		for (int i = 0; i < tab_rows; i++)
+		{
+			string var = to_string(i);
+
+			for (int j = 0; j < 4; j++)
+			{
+				switch (j)
+				{
+				case 0:
+				{
+					string element = "SELECT book_id FROM books_borrowed limit " + var + ",1;";
+					books_tab[i][j] = sendQueryRetStr(element.c_str());
+					break;
+				}
+				case 1:
+				{
+					string element = "SELECT title FROM books_borrowed limit " + var + ",1;";
+					books_tab[i][j] = sendQueryRetStr(element.c_str());
+					break;
+				}
+				case 2:
+				{
+					string element = "SELECT client_id FROM books_borrowed limit " + var + ",1;";
+					books_tab[i][j] = sendQueryRetStr(element.c_str());
+					break;
+				}
+				case 3:
+				{
+					string element = "SELECT client_username FROM books_borrowed limit " + var + ",1;";
+					books_tab[i][j] = sendQueryRetStr(element.c_str());
+					break;
+				}
+				}
+			}
+		}
+		system("CLS");
+		for (int i = 0; i < 4; i++)
+		{
+			cout.width(24);
+			cout << left << tab_h[i];
+		}
+		cout << endl << endl;
+
+		for (int i = 0; i < tab_rows; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				cout.width(24);
+				cout << left << books_tab[i][j];
+			}
+			cout << endl;
+		}
+
+		cout << endl;
+		cout << endl << "OPTIONS" << endl << endl;
+		cout << "1.Return to menu." << endl;
+
+		while (true)
+		{
+			string choice;
+			cout << endl << "What to do: ";
+			getline(cin, choice);
+
+			if (choice == "1")
+			{
+				break;
+			}
+			else
+			{
+				cout << endl << "Invalid input. Try again." << endl;
+			}
+		}
+
+		for (int i = 0; i < tab_rows; i++)
+		{
+			delete[] books_tab[i];
+		}
+		delete[] books_tab;
+	}
+}
+
+void Admin::showClients()
+{
+	string tab_h[6] = { "User id","Username","First name","Last name","Email","Phone number"};
+	string rowsQ = "SELECT COUNT(*) FROM users;";
+	int tab_rows = sendQueryRetInt(rowsQ.c_str()) - 1;
+
+	string** books_tab = new string * [tab_rows];
+	for (int i = 0; i < tab_rows; i++)
+	{
+		books_tab[i] = new string[6];
+	}
+
+	for (int i = 0; i < tab_rows; i++)
+	{
+		string var = to_string(i+1);
+
+		for (int j = 0; j < 6; j++)
+		{
+			switch (j)
+			{
+			case 0:
+			{
+				string element = "SELECT user_id FROM users limit " + var + ",1;";
+				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				break;
+			}
+			case 1:
+			{
+				string element = "SELECT user_name FROM users limit " + var + ",1;";
+				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				break;
+			}
+			case 2:
+			{
+				string element = "SELECT first_name FROM users limit " + var + ",1;";
+				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				break;
+			}
+			case 3:
+			{
+				string element = "SELECT last_name FROM users limit " + var + ",1;";
+				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				break;
+			}
+			case 4:
+			{
+				string element = "SELECT email FROM users limit " + var + ",1;";
+				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				break;
+			}
+			case 5:
+			{
+				string element = "SELECT phone_number FROM users limit " + var + ",1;";
+				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				break;
+			}
+			}
+		}
+	}
+	system("CLS");
+	for (int i = 0; i < 6; i++)
+	{
+		cout.width(20);
+		cout << left << tab_h[i];
+	}
+	cout << endl << endl;
+
+	for (int i = 0; i < tab_rows; i++)
+	{
+		for (int j = 0; j < 6; j++)
+		{
+			cout.width(20);
+			cout << left << books_tab[i][j];
+		}
+		cout << endl;
+	}
+
+	cout << endl;
+	cout << endl << "OPTIONS" << endl << endl;
+	cout << "1.Return to menu." << endl;
+
+	while (true)
+	{
+		string choice;
+		cout << endl << "What to do: ";
+		getline(cin, choice);
+
+		if (choice == "1")
+		{
+			break;
+		}
+		else
+		{
+			cout << endl << "Invalid input. Try again." << endl;
+		}
+	}
+
+	for (int i = 0; i < tab_rows; i++)
+	{
+		delete[] books_tab[i];
+	}
+	delete[] books_tab;
 }
 
 Admin::~Admin()

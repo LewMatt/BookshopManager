@@ -118,12 +118,12 @@ int main()
 				}
 				case 2:
 				{
-					cout << "Not ready yet." << endl;
+					admin_obj->showClients();
 					break;
 				}
 				case 3:
 				{
-					cout << "Not ready yet." << endl;
+					admin_obj->showBorrowedBooks();
 					break;
 				}
 				case 9:

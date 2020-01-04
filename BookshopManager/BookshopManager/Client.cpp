@@ -3,7 +3,7 @@
 Client::Client(string user_name, string user_password) : User(user_name, user_password)
 {
 	string userIdQuery = "SELECT user_id FROM users WHERE user_name = '" + this->user_name + "';";
-	this->user_id = sendQueryRetInt(userIdQuery.c_str());
+	this->user_id = sendQueryRetStr(userIdQuery.c_str());
 	string firstNameQuery = "SELECT first_name FROM users WHERE user_name = '" + this->user_name + "';";
 	this->first_name = sendQueryRetStr(firstNameQuery.c_str());
 	string lastNameQuery = "SELECT last_name FROM users WHERE user_name = '" + this->user_name + "';";
@@ -18,10 +18,10 @@ int Client::showMenu()
 {
 	system("CLS");
 	cout << "OPTIONS" << endl << endl;
-	cout << "1. Show availabe books. " << endl;
-	cout << "2. Show my books." << endl;
-	cout << "3. Show my details." << endl;
-	cout << "9. Log out." << endl << endl;
+	cout << "1.Show availabe books. " << endl;
+	cout << "2.Show my books." << endl;
+	cout << "3.Show my details." << endl;
+	cout << "9.Log out." << endl << endl;
 	while (true)
 	{
 		string choice;
@@ -127,7 +127,7 @@ void Client::showBooks(Client * cl_obj)
 		}
 		cout << endl;
 	}
-
+	cout << endl;
 	cout << endl << "OPTIONS" << endl<<endl;
 	cout << "1.Borrow a book" << endl;
 	cout << "2.Return to menu" << endl;
@@ -142,7 +142,7 @@ void Client::showBooks(Client * cl_obj)
 		{
 			while (true)
 			{
-				cout << endl << "Type book id: ";
+				cout << endl << "Enter book id: ";
 				string choice;
 				getline(cin, choice);
 				string querytext = "SELECT COUNT(*) FROM books WHERE book_id = '" + choice + "';";
@@ -156,8 +156,11 @@ void Client::showBooks(Client * cl_obj)
 					Book* book_obj = new Book(choice);
 					string var = "INSERT INTO books_" + cl_obj->getUsername() + " (book_id,name,author,type,release_date) VALUES ('" + book_obj->getBookId() + "','" + book_obj->getTitle() + "','" + book_obj->getAuthor() + "','" + book_obj->getBookType() + "','" + book_obj->getReleaseDate() + "');";
 					sendQuery(var.c_str());
-					string var2 = "DELETE FROM books WHERE book_id='" + choice + "';";
+					string var2 = "INSERT INTO books_borrowed (book_id,title,client_id,client_username) VALUES ('" + book_obj->getBookId() + "','" + book_obj->getTitle() + "','" + cl_obj->getUserId() + "','" + cl_obj->getUsername() + "');";
 					sendQuery(var2.c_str());
+					string var3 = "DELETE FROM books WHERE book_id='" + choice + "';";
+					sendQuery(var3.c_str());
+
 					delete book_obj;
 					break;
 				}
@@ -276,6 +279,7 @@ void Client::showMyBooks(Client *obj)
 			cout << endl;
 		}
 
+		cout << endl;
 		cout << endl << "OPTIONS" << endl << endl;
 		cout << "1.Return a book." << endl;
 		cout << "2.Return to menu" << endl;
@@ -291,7 +295,7 @@ void Client::showMyBooks(Client *obj)
 				while (true)
 				{
 					string input;
-					cout << endl << "Input book id: ";
+					cout << endl << "Enter book id: ";
 					getline(cin, input);
 					string q = "SELECT COUNT(*) FROM books_" + obj->getUsername() + " WHERE book_id = '" + input + "';";
 					int ret = sendQueryRetInt(q.c_str());
@@ -306,6 +310,8 @@ void Client::showMyBooks(Client *obj)
 						sendQuery(var.c_str());
 						string var2 = "DELETE FROM books_"+obj->getUsername()+" WHERE book_id='" + input + "';";
 						sendQuery(var2.c_str());
+						string var3 = "DELETE FROM books_borrowed WHERE book_id= '" + input + "';";
+						sendQuery(var3.c_str());
 						delete book_obj;
 						break;
 					}
@@ -351,7 +357,7 @@ void Client::showMyDetails(Client *obj)
 	cout << endl<<endl;
 
 	cout << endl << "OPTIONS" << endl << endl;
-	cout <<"1.Change details." << endl;
+	cout << "1.Change details." << endl;
 	cout << "2.Change password." << endl;
 	cout << "3.Return to menu." << endl;
 
@@ -429,7 +435,7 @@ void Client::showMyDetails(Client *obj)
 					while (true)
 					{
 						string pw1, pw2;
-						cout << endl <<"New password: ";
+						cout << endl << "New password: ";
 						getline(cin, pw1);
 						cout << "New password again: ";
 						getline(cin, pw2);

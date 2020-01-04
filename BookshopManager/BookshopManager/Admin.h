@@ -8,6 +8,8 @@ public:
 	Admin(string, string);
 	int showMenu();
 	void showBooks();
+	void showBorrowedBooks();
+	void showClients();
 	~Admin();
 };
 
