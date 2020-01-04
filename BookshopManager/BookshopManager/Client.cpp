@@ -425,21 +425,46 @@ void Client::showMyDetails(Client* obj)
 		{
 			while (true)
 			{
-				string curr_pw;
+				string curr_pw = "";
+				char ch;
 				cout << endl << "Current password: ";
-				getline(cin, curr_pw);
+				ch = _getch();
+				while (ch != 13)
+				{
+					curr_pw.push_back(ch);
+					cout << '*';
+					ch = _getch();
+				}
+				cout << endl;
+
 				string pw_check = "SELECT user_password FROM users WHERE user_name ='" + obj->getUsername() + "';";
 				string act_pw = sendQueryRetStr(pw_check.c_str());
 				if (curr_pw == act_pw)
 				{
 					while (true)
 					{
-						string pw1, pw2;
+						string pw1="", pw2="";
 						cout << endl << "New password: ";
-						getline(cin, pw1);
+						ch = _getch();
+						while (ch != 13)
+						{
+							pw1.push_back(ch);
+							cout << '*';
+							ch = _getch();
+						}
+						cout << endl;
+
 						cout << "New password again: ";
-						getline(cin, pw2);
-						if (pw1 == pw2)
+						ch = _getch();
+						while (ch != 13)
+						{
+							pw2.push_back(ch);
+							cout << '*';
+							ch = _getch();
+						}
+						cout << endl;
+
+						if (pw1 == pw2 && pw1 != "")
 						{
 							string que = "UPDATE users SET user_password = '" + pw1 + "' WHERE user_name = '" + obj->getUsername() + "';";
 							sendQuery(que.c_str());

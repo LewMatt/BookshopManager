@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<stdlib.h>
+#include<conio.h>
 #include <mysql.h>
 #include "Admin.h"
 #include "Client.h"
@@ -115,7 +116,8 @@ void createAccount()
 {
 	system("CLS");
 	cout << "NEW USER CREATION" << endl;
-	string newUsername, newPassword, newPasswordAgain, newFirstName, newLastName, newEmail, newPhoneNumber;
+	char ch;
+	string newUsername, newPassword ="", newPasswordAgain="", newFirstName, newLastName, newEmail, newPhoneNumber;
 	string qText = "SELECT COUNT(*) FROM users;";
 	int newId = sendQueryRetInt(qText.c_str());
 
@@ -138,10 +140,23 @@ void createAccount()
 	while (true)
 	{
 		cout << "Password: ";
-		getline(cin, newPassword);
+		ch = _getch();
+		while (ch != 13)
+		{
+			newPassword.push_back(ch);
+			cout << '*';
+			ch = _getch();
+		}
+		cout << endl;
 		cout << "Password again: ";
-		getline(cin, newPasswordAgain);
-
+		ch = _getch();
+		while (ch != 13)
+		{
+			newPasswordAgain.push_back(ch);
+			cout << '*';
+			ch = _getch();
+		}
+		cout << endl;
 		if (newPassword == newPasswordAgain)
 		{
 			break;
@@ -149,10 +164,12 @@ void createAccount()
 		else
 		{
 			cout << endl << "Passwords do not match. Try again." << endl << endl;
+			newPassword = "";
+			newPasswordAgain = "";
 		}
 	}
 
-	cout << "First name: ";
+	cout << endl << "First name: ";
 	getline(cin, newFirstName);
 	cout << "Last name: ";
 	getline(cin, newLastName);
@@ -206,11 +223,18 @@ void loginFunc()
 
 	while (true)
 	{
-		string username, password, userQ, passQ, logQ;
+		string username, password ="", userQ, passQ, logQ;
+		char ch;
 		cout << endl << "Username: ";
 		getline(cin, username);
 		cout << "Password: ";
-		getline(cin, password);
+		ch = _getch();
+		while (ch != 13) 
+		{
+			password.push_back(ch);
+			cout << '*';
+			ch = _getch();
+		}
 
 		userQ = "'" + username + "'";
 		passQ = "'" + password + "'";
