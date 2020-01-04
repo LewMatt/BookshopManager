@@ -102,18 +102,12 @@ void sendQuery(string x)
 	const int sql_flags = 0;
 
 	MYSQL* handler;
-	MYSQL_RES* qRes;
 
 	handler = mysql_init(NULL);
 	mysql_real_connect(handler, sql_host_name, sql_user_name, sql_password, sql_db_name, sql_port, sql_socket, sql_flags);
 
 	mysql_query(handler, x.c_str());
-	qRes = mysql_store_result(handler);
 
-	if (qRes != NULL)
-	{
-		mysql_free_result(qRes);
-	}
 	mysql_close(handler);
 }
 
