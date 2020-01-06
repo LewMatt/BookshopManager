@@ -3,7 +3,7 @@
 Admin::Admin(string user_name, string user_password) : User(user_name, user_password)
 {
 	string userIdQuery = "SELECT user_id FROM users WHERE user_name = '" + this->user_name + "';";
-	this->user_id = sendQueryRetStr(userIdQuery.c_str());
+	this->user_id = sendQueryRetInt(userIdQuery.c_str());
 	string firstNameQuery = "SELECT first_name FROM users WHERE user_name = '" + this->user_name + "';";
 	this->first_name = sendQueryRetStr(firstNameQuery.c_str());
 	string lastNameQuery = "SELECT last_name FROM users WHERE user_name = '" + this->user_name + "';";
@@ -11,7 +11,7 @@ Admin::Admin(string user_name, string user_password) : User(user_name, user_pass
 	string emailQuery = "SELECT email FROM users WHERE user_name = '" + this->user_name + "';";
 	this->email = sendQueryRetStr(emailQuery.c_str());
 	string phoneNumberQuery = "SELECT phone_number FROM users WHERE user_name = '" + this->user_name + "';";
-	this->phone_number = sendQueryRetStr(phoneNumberQuery.c_str());
+	this->phone_number = sendQueryRetInt(phoneNumberQuery.c_str());
 }
 
 int Admin::showMenu()
@@ -79,31 +79,31 @@ void Admin::showBooks()
 			{
 			case 0:
 			{
-				string element = "SELECT book_id FROM books_all limit " + var + ",1;";
+				string element = "SELECT book_id FROM books_all ORDER BY book_id limit " + var + ",1;";
 				tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 1:
 			{
-				string element = "SELECT name FROM books_all limit " + var + ",1;";
+				string element = "SELECT title FROM books_all ORDER BY book_id limit " + var + ",1;";
 				tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 2:
 			{
-				string element = "SELECT author FROM books_all limit " + var + ",1;";
+				string element = "SELECT author FROM books_all ORDER BY book_id limit " + var + ",1;";
 				tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 3:
 			{
-				string element = "SELECT type FROM books_all limit " + var + ",1;";
+				string element = "SELECT type FROM books_all ORDER BY book_id limit " + var + ",1;";
 				tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 4:
 			{
-				string element = "SELECT release_date FROM books_all limit " + var + ",1;";
+				string element = "SELECT release_date FROM books_all ORDER BY book_id limit " + var + ",1;";
 				tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
@@ -141,26 +141,11 @@ void Admin::showBooks()
 
 		if (choice == "1")
 		{
-			string b_id, b_title, b_author, b_type, b_release_date;
+			int b_id, b_release_date;
+			string b_title, b_author, b_type;
 
-			while (true)
-			{
-				string x;
-				cout << endl << "Book id: ";
-				getline(cin, x);
-				string qText = "SELECT COUNT(*) FROM books_all WHERE book_id = '" + x + "';";
-				int result = sendQueryRetInt(qText.c_str());
-				if (result == 1)
-				{
-					cout << endl << "There already is a book with that id. Try again." << endl;
-				}
-				else
-				{
-					b_id = x;
-					break;
-				}
-			}
-
+			string QueryId = "SELECT COUNT(*) FROM books_all;";
+			b_id = sendQueryRetInt(QueryId) + 1;
 			cout << "Book title: ";
 			getline(cin, b_title);
 			cout << "Author: ";
@@ -168,12 +153,12 @@ void Admin::showBooks()
 			cout << "Book type: ";
 			getline(cin, b_type);
 			cout << "Release date: ";
-			getline(cin, b_release_date);
+			cin >> b_release_date;
 
 			Book* book_obj = new Book(b_id, b_title, b_author, b_type, b_release_date);
 
-			string queryBooks = "INSERT INTO books (book_id,name,author,type,release_date) VALUES ('" + book_obj->getBookId() + "','" + book_obj->getTitle() + "','" + book_obj->getAuthor() + "','" + book_obj->getBookType() + "','" + book_obj->getReleaseDate() + "');";
-			string queryBooksAll = "INSERT INTO books_all (book_id,name,author,type,release_date) VALUES ('" + book_obj->getBookId() + "','" + book_obj->getTitle() + "','" + book_obj->getAuthor() + "','" + book_obj->getBookType() + "','" + book_obj->getReleaseDate() + "');";
+			string queryBooks = "INSERT INTO books (book_id,name,author,type,release_date) VALUES (" + to_string(book_obj->getBookId()) + ",'" + book_obj->getTitle() + "','" + book_obj->getAuthor() + "','" + book_obj->getBookType() + "'," + to_string(book_obj->getReleaseDate()) + ");";
+			string queryBooksAll = "INSERT INTO books_all (book_id,name,author,type,release_date) VALUES (" + to_string(book_obj->getBookId()) + ",'" + book_obj->getTitle() + "','" + book_obj->getAuthor() + "','" + book_obj->getBookType() + "'," + to_string(book_obj->getReleaseDate()) + ");";
 			sendQuery(queryBooks.c_str());
 			sendQuery(queryBooksAll.c_str());
 
@@ -243,25 +228,25 @@ void Admin::showBorrowedBooks()
 				{
 				case 0:
 				{
-					string element = "SELECT book_id FROM books_borrowed limit " + var + ",1;";
+					string element = "SELECT book_id FROM books_borrowed ORDER BY book_id limit " + var + ",1;";
 					books_tab[i][j] = sendQueryRetStr(element.c_str());
 					break;
 				}
 				case 1:
 				{
-					string element = "SELECT title FROM books_borrowed limit " + var + ",1;";
+					string element = "SELECT title FROM books_borrowed ORDER BY book_id limit " + var + ",1;";
 					books_tab[i][j] = sendQueryRetStr(element.c_str());
 					break;
 				}
 				case 2:
 				{
-					string element = "SELECT client_id FROM books_borrowed limit " + var + ",1;";
+					string element = "SELECT client_id FROM books_borrowed ORDER BY book_id limit " + var + ",1;";
 					books_tab[i][j] = sendQueryRetStr(element.c_str());
 					break;
 				}
 				case 3:
 				{
-					string element = "SELECT client_username FROM books_borrowed limit " + var + ",1;";
+					string element = "SELECT client_username FROM books_borrowed ORDER BY book_id limit " + var + ",1;";
 					books_tab[i][j] = sendQueryRetStr(element.c_str());
 					break;
 				}
@@ -336,37 +321,37 @@ void Admin::showClients()
 			{
 			case 0:
 			{
-				string element = "SELECT user_id FROM users limit " + var + ",1;";
+				string element = "SELECT user_id FROM users ORDER BY user_id limit " + var + ",1;";
 				books_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 1:
 			{
-				string element = "SELECT user_name FROM users limit " + var + ",1;";
+				string element = "SELECT user_name FROM users ORDER BY user_id limit " + var + ",1;";
 				books_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 2:
 			{
-				string element = "SELECT first_name FROM users limit " + var + ",1;";
+				string element = "SELECT first_name FROM users ORDER BY user_id limit " + var + ",1;";
 				books_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 3:
 			{
-				string element = "SELECT last_name FROM users limit " + var + ",1;";
+				string element = "SELECT last_name FROM users ORDER BY user_id limit " + var + ",1;";
 				books_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 4:
 			{
-				string element = "SELECT email FROM users limit " + var + ",1;";
+				string element = "SELECT email FROM users ORDER BY user_id limit " + var + ",1;";
 				books_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 5:
 			{
-				string element = "SELECT phone_number FROM users limit " + var + ",1;";
+				string element = "SELECT phone_number FROM users ORDER BY user_id limit " + var + ",1;";
 				books_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}

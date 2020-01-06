@@ -117,7 +117,8 @@ void createAccount()
 	system("CLS");
 	cout << "NEW USER CREATION" << endl;
 	char ch;
-	string newUsername, newPassword ="", newPasswordAgain="", newFirstName, newLastName, newEmail, newPhoneNumber;
+	string newUsername, newPassword = "", newPasswordAgain = "", newFirstName, newLastName, newEmail;
+	int newPhoneNumber;
 	string qText = "SELECT COUNT(*) FROM users;";
 	int newId = sendQueryRetInt(qText.c_str());
 
@@ -176,11 +177,21 @@ void createAccount()
 	cout << "Email: ";
 	getline(cin, newEmail);
 	cout << "Phone number: ";
-	getline(cin, newPhoneNumber);
+	cin >> newPhoneNumber;
+	while (cin.fail())
+	{
+		cout << endl << "Invalid number. Try again." << endl;
+		cin.clear();
+		cin.ignore(256, '\n');
+		cout << endl << "Phone number: ";
+		cin >> newPhoneNumber;
+	}
 
 	string newIdStr = to_string(newId);
-	string newAccQuery = "INSERT INTO users (user_id,user_name,user_password,first_name,last_name,email,phone_number) VALUES ('" + newIdStr + "','" + newUsername + "','" + newPassword + "','" + newFirstName + "','" + newLastName + "','" + newEmail + "','" + newPhoneNumber + "');";
+	string newAccQuery = "INSERT INTO users (user_id,user_name,user_password,first_name,last_name,email,phone_number) VALUES (" + newIdStr + ",'" + newUsername + "','" + newPassword + "','" + newFirstName + "','" + newLastName + "','" + newEmail + "'," + to_string(newPhoneNumber) + ");";
 	sendQuery(newAccQuery.c_str());
+	string newTabQuery = "CREATE TABLE books_" + newUsername + " (book_id int, title varchar(200), author varchar(200), type varchar(200), release_date int);";
+	sendQuery(newTabQuery.c_str());
 }
 
 void loginOptions()

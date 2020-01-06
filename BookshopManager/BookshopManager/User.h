@@ -11,20 +11,20 @@ using namespace std;
 class User
 {
 protected:
-	string user_id;
+	int user_id, phone_number;
 	string user_name;
 	string user_password;
-	string first_name, last_name, email, phone_number;
+	string first_name, last_name, email;
 public:
 	User(string, string);
-	string getUserId();
+	int getUserId();
 	string getUsername();
 	string getPassword();
 	void setPassword(string);
 	string getFirstName();
 	string getLastName();
 	string getEmail();
-	string getPhoneNumber();
+	int getPhoneNumber();
 	string sendQueryRetStr(string);
 	int sendQueryRetInt(string);
 	void sendQuery(string);

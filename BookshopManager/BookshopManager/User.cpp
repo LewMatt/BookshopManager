@@ -6,7 +6,7 @@ User::User(string user_name, string user_password)
 	this->user_password = user_password;
 }
 
-string User::getUserId()
+int User::getUserId()
 {
 	return user_id;
 }
@@ -41,7 +41,7 @@ string User::getEmail()
 	return email;
 }
 
-string User::getPhoneNumber()
+int User::getPhoneNumber()
 {
 	return phone_number;
 }

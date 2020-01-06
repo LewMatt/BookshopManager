@@ -8,21 +8,21 @@ using namespace std;
 class Book
 {
 protected:
-	string book_id;
+	int book_id,book_release_date;
 	string book_title;
 	string book_author;
 	string book_type;
-	string book_release_date;
 public:
-	Book(string);
-	Book(string, string, string, string, string);
+	Book(int);
+	Book(int, string, string, string, int);
 	~Book();
-	string getBookId();
+	int getBookId();
 	string getTitle();
 	string getAuthor();
 	string getBookType();
-	string getReleaseDate();
+	int getReleaseDate();
 	string sendQueryRetStr(string);
+	int sendQueryRetInt(string);
 };
 
 #endif 
