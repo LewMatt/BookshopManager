@@ -164,9 +164,17 @@ void Client::showBooks(Client* cl_obj)
 			{
 				while (true)
 				{
-					cout << endl << "Enter book id: ";
 					int choice;
+					cout << endl << "Enter book id: ";
 					cin >> choice;
+					while (cin.fail())
+					{
+						cout << endl << "Invalid input. Try again." << endl;
+						cin.clear();
+						cin.ignore(256, '\n');
+						cout << endl << "Enter book id: ";
+						cin >> choice;
+					}
 					string querytext = "SELECT COUNT(*) FROM books WHERE book_id = " + to_string(choice) + ";";
 					int res = sendQueryRetInt(querytext.c_str());
 					if (res == 0)
@@ -321,6 +329,14 @@ void Client::showMyBooks(Client* obj)
 					int input;
 					cout << endl << "Enter book id: ";
 					cin >> input;
+					while (cin.fail())
+					{
+						cout << endl << "Invalid number. Try again." << endl;
+						cin.clear();
+						cin.ignore(256, '\n');
+						cout << endl << "Enter book id: ";
+						cin >> input;
+					}
 					string q = "SELECT COUNT(*) FROM books_" + obj->getUsername() + " WHERE book_id = " + to_string(input) + ";";
 					int ret = sendQueryRetInt(q.c_str());
 					if (ret == 0)

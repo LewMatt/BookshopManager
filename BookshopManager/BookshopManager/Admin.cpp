@@ -146,6 +146,7 @@ void Admin::showBooks()
 
 			string QueryId = "SELECT COUNT(*) FROM books_all;";
 			b_id = sendQueryRetInt(QueryId) + 1;
+			cout << endl;
 			cout << "Book title: ";
 			getline(cin, b_title);
 			cout << "Author: ";
@@ -154,11 +155,19 @@ void Admin::showBooks()
 			getline(cin, b_type);
 			cout << "Release date: ";
 			cin >> b_release_date;
+			while (cin.fail())
+			{
+				cout << endl << "Invalid release date. Try again." << endl;
+				cin.clear();
+				cin.ignore(256, '\n');
+				cout << endl << "Release date: ";
+				cin >> b_release_date;
+			}
 
 			Book* book_obj = new Book(b_id, b_title, b_author, b_type, b_release_date);
 
-			string queryBooks = "INSERT INTO books (book_id,name,author,type,release_date) VALUES (" + to_string(book_obj->getBookId()) + ",'" + book_obj->getTitle() + "','" + book_obj->getAuthor() + "','" + book_obj->getBookType() + "'," + to_string(book_obj->getReleaseDate()) + ");";
-			string queryBooksAll = "INSERT INTO books_all (book_id,name,author,type,release_date) VALUES (" + to_string(book_obj->getBookId()) + ",'" + book_obj->getTitle() + "','" + book_obj->getAuthor() + "','" + book_obj->getBookType() + "'," + to_string(book_obj->getReleaseDate()) + ");";
+			string queryBooks = "INSERT INTO books (book_id,title,author,type,release_date) VALUES (" + to_string(book_obj->getBookId()) + ",'" + book_obj->getTitle() + "','" + book_obj->getAuthor() + "','" + book_obj->getBookType() + "'," + to_string(book_obj->getReleaseDate()) + ");";
+			string queryBooksAll = "INSERT INTO books_all (book_id,title,author,type,release_date) VALUES (" + to_string(book_obj->getBookId()) + ",'" + book_obj->getTitle() + "','" + book_obj->getAuthor() + "','" + book_obj->getBookType() + "'," + to_string(book_obj->getReleaseDate()) + ");";
 			sendQuery(queryBooks.c_str());
 			sendQuery(queryBooksAll.c_str());
 

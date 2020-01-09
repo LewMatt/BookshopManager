@@ -32,6 +32,7 @@ string sendQueryRetStr(string x)
 	mysql_real_connect(handler, sql_host_name, sql_user_name, sql_password, sql_db_name, sql_port, sql_socket, sql_flags);
 
 	mysql_query(handler, x.c_str());
+
 	qRes = mysql_store_result(handler);
 
 	int num_fields = mysql_num_fields(qRes);
@@ -180,7 +181,7 @@ void createAccount()
 	cin >> newPhoneNumber;
 	while (cin.fail())
 	{
-		cout << endl << "Invalid number. Try again." << endl;
+		cout << endl << "Invalid input. Try again." << endl;
 		cin.clear();
 		cin.ignore(256, '\n');
 		cout << endl << "Phone number: ";
