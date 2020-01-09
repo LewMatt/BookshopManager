@@ -247,7 +247,6 @@ void loginFunc()
 			cout << '*';
 			ch = _getch();
 		}
-
 		userQ = "'" + username + "'";
 		passQ = "'" + password + "'";
 		logQ = "SELECT COUNT(*) FROM users WHERE user_name = " + userQ + " AND user_password = " + passQ + ";";
