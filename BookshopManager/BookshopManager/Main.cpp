@@ -260,7 +260,7 @@ void loginFunc()
 		}
 		else
 		{
-			cout << endl << "Invalid input. Try again." << endl;
+			cout << endl << endl << "Invalid input. Try again." << endl;
 		}
 	}
 	loggedIn = true;
