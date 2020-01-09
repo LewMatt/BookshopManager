@@ -16,6 +16,7 @@ Client::Client(string user_name, string user_password) : User(user_name, user_pa
 
 int Client::showMenu()
 {
+	string choice;
 	system("CLS");
 	cout << "OPTIONS" << endl << endl;
 	cout << "1.Show availabe books. " << endl;
@@ -24,9 +25,8 @@ int Client::showMenu()
 	cout << "9.Log out." << endl << endl;
 	while (true)
 	{
-		string choice;
 		cout << "What to do: ";
-		getline(cin, choice);
+		cin >> choice;
 		if (choice == "1")
 		{
 			return 1;
@@ -69,7 +69,7 @@ void Client::showBooks(Client* cl_obj)
 		{
 			string choice;
 			cout << endl << ": ";
-			getline(cin, choice);
+			cin >> choice;
 			if (choice == "1")
 			{
 				break;
@@ -158,7 +158,7 @@ void Client::showBooks(Client* cl_obj)
 		{
 			string choice;
 			cout << endl << "What to do: ";
-			getline(cin, choice);
+			cin >> choice;
 
 			if (choice == "1")
 			{
@@ -233,7 +233,7 @@ void Client::showMyBooks(Client* obj)
 		{
 			string choice;
 			cout << endl << ": ";
-			getline(cin, choice);
+			cin >> choice;
 			if (choice == "1")
 			{
 				break;
@@ -320,7 +320,7 @@ void Client::showMyBooks(Client* obj)
 		{
 			string choice;
 			cout << endl << "What to do: ";
-			getline(cin, choice);
+			cin >> choice;
 
 			if (choice == "1")
 			{
@@ -405,7 +405,7 @@ void Client::showMyDetails(Client* obj)
 	{
 		string choice;
 		cout << endl << "What to do: ";
-		getline(cin, choice);
+		cin >> choice;
 		if (choice == "1")
 		{
 			cout << endl << "1.Change first name." << endl;
@@ -417,12 +417,12 @@ void Client::showMyDetails(Client* obj)
 			{
 				string ch;
 				cout << endl << "Choice: ";
-				getline(cin, ch);
+				cin >> ch;
 				if (ch == "1")
 				{
 					cout << endl << "New first name: ";
 					string inp;
-					getline(cin, inp);
+					cin >> inp;
 					string que = "UPDATE users SET first_name = '" + inp + "' where user_name = '" + obj->getUsername() + "';";
 					sendQuery(que.c_str());
 					break;
@@ -431,7 +431,7 @@ void Client::showMyDetails(Client* obj)
 				{
 					cout << endl << "New last name: ";
 					string inp;
-					getline(cin, inp);
+					cin >> inp;
 					string que = "UPDATE users SET last_name = '" + inp + "' where user_name = '" + obj->getUsername() + "';";
 					sendQuery(que.c_str());
 					break;
@@ -440,7 +440,7 @@ void Client::showMyDetails(Client* obj)
 				{
 					cout << endl << "New email: ";
 					string inp;
-					getline(cin, inp);
+					cin >> inp;
 					string que = "UPDATE users SET email = '" + inp + "' where user_name = '" + obj->getUsername() + "';";
 					sendQuery(que.c_str());
 					break;

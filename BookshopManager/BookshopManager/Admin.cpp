@@ -26,7 +26,7 @@ int Admin::showMenu()
 	{
 		string choice;
 		cout << "What to do: ";
-		getline(cin, choice);
+		cin >> choice;
 		if (choice == "1")
 		{
 			return 1;
@@ -137,7 +137,7 @@ void Admin::showBooks()
 	{
 		string choice;
 		cout << endl << "What to do: ";
-		getline(cin, choice);
+		cin >> choice;
 
 		if (choice == "1")
 		{
@@ -148,11 +148,11 @@ void Admin::showBooks()
 			b_id = sendQueryRetInt(QueryId) + 1;
 			cout << endl;
 			cout << "Book title: ";
-			getline(cin, b_title);
+			cin >> b_title;
 			cout << "Author: ";
-			getline(cin, b_author);
+			cin >> b_author;
 			cout << "Book type: ";
-			getline(cin, b_type);
+			cin >> b_type;
 			cout << "Release date: ";
 			cin >> b_release_date;
 			while (cin.fail())
@@ -208,7 +208,7 @@ void Admin::showBorrowedBooks()
 		{
 			string choice;
 			cout << endl << ": ";
-			getline(cin, choice);
+			cin >> choice;
 			if (choice == "1")
 			{
 				break;
@@ -288,7 +288,7 @@ void Admin::showBorrowedBooks()
 		{
 			string choice;
 			cout << endl << "What to do: ";
-			getline(cin, choice);
+			cin >> choice;
 
 			if (choice == "1")
 			{
@@ -393,7 +393,7 @@ void Admin::showClients()
 	{
 		string choice;
 		cout << endl << "What to do: ";
-		getline(cin, choice);
+		cin >> choice;
 
 		if (choice == "1")
 		{

@@ -126,7 +126,7 @@ void createAccount()
 	while (true)
 	{
 		cout << endl << "Username: ";
-		getline(cin, newUsername);
+		cin >> newUsername;
 		string usernameQuery = "SELECT COUNT(*) FROM users WHERE user_name = '" + newUsername + "';";
 		int result = sendQueryRetInt(usernameQuery.c_str());
 		if (result == 0)
@@ -172,11 +172,11 @@ void createAccount()
 	}
 
 	cout << endl << "First name: ";
-	getline(cin, newFirstName);
+	cin >> newFirstName;
 	cout << "Last name: ";
-	getline(cin, newLastName);
+	cin >> newLastName;
 	cout << "Email: ";
-	getline(cin, newEmail);
+	cin >> newEmail;
 	cout << "Phone number: ";
 	cin >> newPhoneNumber;
 	while (cin.fail())
@@ -206,7 +206,7 @@ void loginOptions()
 	{
 		string choice;
 		cout << endl << "What to do: ";
-		getline(cin, choice);
+		cin >> choice;
 
 		if (choice == "1")
 		{
@@ -238,7 +238,7 @@ void loginFunc()
 		string username, password ="", userQ, passQ, logQ;
 		char ch;
 		cout << endl << "Username: ";
-		getline(cin, username);
+		cin >> username;
 		cout << "Password: ";
 		ch = _getch();
 		while (ch != 13) 
