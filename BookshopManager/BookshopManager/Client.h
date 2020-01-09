@@ -7,7 +7,7 @@ class Client : public User
 public:
 	Client(string, string);
 	~Client();
-	int showMenu();
+	virtual int showMenu();
 	void showBooks(Client*);
 	void showMyBooks(Client*);
 	void showMyDetails(Client*);

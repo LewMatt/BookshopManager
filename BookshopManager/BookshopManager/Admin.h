@@ -6,7 +6,7 @@ class Admin : public User
 {
 public:
 	Admin(string, string);
-	int showMenu();
+	virtual int showMenu();
 	void showBooks();
 	void showBorrowedBooks();
 	void showClients();

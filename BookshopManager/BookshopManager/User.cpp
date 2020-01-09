@@ -46,6 +46,12 @@ int User::getPhoneNumber()
 	return phone_number;
 }
 
+int User::showMenu()
+{
+	cout << "Menu" << endl;
+	return 0;
+}
+
 string User::sendQueryRetStr(string x)
 {
 	const char* sql_host_name = "localhost";
