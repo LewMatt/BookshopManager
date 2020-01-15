@@ -17,7 +17,7 @@ protected:
 	string first_name, last_name, email;
 public:
 	User(string, string);
-	virtual int showMenu();
+	virtual int showMenu() = 0;
 	int getUserId();
 	string getUsername();
 	string getPassword();

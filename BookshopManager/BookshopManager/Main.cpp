@@ -291,8 +291,8 @@ int main()
 
 			if (adminLoggedIn)
 			{
-
-				switch (admin_obj->showMenu())
+				User* pointer = admin_obj;
+				switch (pointer->showMenu())
 				{
 				case 1:
 				{
@@ -311,8 +311,10 @@ int main()
 				}
 				case 9:
 				{
+
 					delete admin_obj;
 					delete client_obj;
+					delete pointer;
 					loggedIn = false;
 					break;
 				}
@@ -320,7 +322,8 @@ int main()
 			}
 			else
 			{
-				switch (client_obj->showMenu())
+				User* pointer = client_obj;
+				switch (pointer->showMenu())
 				{
 				case 1:
 				{
@@ -342,6 +345,7 @@ int main()
 					cout << endl << "Logged out" << endl;
 					delete admin_obj;
 					delete client_obj;
+					delete pointer;
 					loggedIn = false;
 					break;
 				}

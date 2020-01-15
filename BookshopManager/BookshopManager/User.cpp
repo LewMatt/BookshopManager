@@ -48,8 +48,6 @@ int User::getPhoneNumber()
 
 int User::showMenu()
 {
-	cout << "Menu" << endl;
-	return 0;
 }
 
 string User::sendQueryRetStr(string x)
