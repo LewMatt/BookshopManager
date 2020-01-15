@@ -29,6 +29,7 @@ public:
 	string sendQueryRetStr(string);
 	int sendQueryRetInt(string);
 	void sendQuery(string);
+	void sendQueryRetArr(string, string*[]);
 };
 
 #endif

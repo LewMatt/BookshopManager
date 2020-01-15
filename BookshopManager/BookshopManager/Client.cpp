@@ -64,7 +64,7 @@ void Client::showBooks(Client* cl_obj)
 	{
 		cout << "No books available at this moment." << endl << endl;
 		cout << "Enter 1 to return." << endl;
-		
+
 		while (true)
 		{
 			string choice;
@@ -91,47 +91,9 @@ void Client::showBooks(Client* cl_obj)
 
 		string tab_h[5] = { "id","Title","Author","Type","Release date" };
 
-		for (int i = 0; i < tab_rows; i++)
-		{
-			string var = to_string(i);
+		string q = "SELECT * FROM books ORDER BY book_id;";
 
-			for (int j = 0; j < tab_cols; j++)
-			{
-				switch (j)
-				{
-				case 0:
-				{
-					string element = "SELECT book_id FROM books ORDER BY book_id limit " + var + ",1;";
-					tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				case 1:
-				{
-					string element = "SELECT title FROM books ORDER BY book_id limit " + var + ",1;";
-					tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				case 2:
-				{
-					string element = "SELECT author FROM books ORDER BY book_id limit " + var + ",1;";
-					tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				case 3:
-				{
-					string element = "SELECT type FROM books ORDER BY book_id limit " + var + ",1;";
-					tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				case 4:
-				{
-					string element = "SELECT release_date FROM books ORDER BY book_id limit " + var + ",1;";
-					tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				}
-			}
-		}
+		sendQueryRetArr(q.c_str(), tab);
 
 		for (int i = 0; i < 5; i++)
 		{
@@ -214,7 +176,6 @@ void Client::showBooks(Client* cl_obj)
 		}
 		delete[] tab;
 	}
-	
 }
 
 void Client::showMyBooks(Client* obj)
@@ -252,47 +213,10 @@ void Client::showMyBooks(Client* obj)
 			books_tab[i] = new string[5];
 		}
 
-		for (int i = 0; i < tab_rows; i++)
-		{
-			string var = to_string(i);
+		string q = "SELECT * FROM books_" + obj->getUsername() + " ORDER BY book_id;";
 
-			for (int j = 0; j < 5; j++)
-			{
-				switch (j)
-				{
-				case 0:
-				{
-					string element = "SELECT book_id FROM books_" + obj->getUsername() + " ORDER BY book_id limit " + var + ",1;";
-					books_tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				case 1:
-				{
-					string element = "SELECT title FROM books_" + obj->getUsername() + " ORDER BY book_id limit " + var + ",1;";
-					books_tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				case 2:
-				{
-					string element = "SELECT author FROM books_" + obj->getUsername() + " ORDER BY book_id limit " + var + ",1;";
-					books_tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				case 3:
-				{
-					string element = "SELECT type FROM books_" + obj->getUsername() + " ORDER BY book_id limit " + var + ",1;";
-					books_tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				case 4:
-				{
-					string element = "SELECT release_date FROM books_" + obj->getUsername() + " ORDER BY book_id limit " + var + ",1;";
-					books_tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				}
-			}
-		}
+		sendQueryRetArr(q.c_str(), books_tab);
+
 		system("CLS");
 		for (int i = 0; i < 5; i++)
 		{

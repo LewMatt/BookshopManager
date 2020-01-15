@@ -149,3 +149,50 @@ void User::sendQuery(string x)
 	
 	mysql_close(handler);
 }
+
+void User::sendQueryRetArr(string x, string *tab[])
+{
+	const char* sql_host_name = "localhost";
+	const char* sql_user_name = "root";
+	const char* sql_password = "password";
+	const char* sql_db_name = "bookshop_db";
+	const unsigned int sql_port = 3306;
+	const char* sql_socket = NULL;
+	const int sql_flags = 0;
+
+	MYSQL* handler;
+	MYSQL_RES* qRes;
+	MYSQL_ROW row;
+
+	handler = mysql_init(NULL);
+	mysql_real_connect(handler, sql_host_name, sql_user_name, sql_password, sql_db_name, sql_port, sql_socket, sql_flags);
+
+	mysql_query(handler, x.c_str());
+	qRes = mysql_store_result(handler);
+
+	int num_fields = mysql_num_fields(qRes);
+
+	int i = 0;
+	while ((row = mysql_fetch_row(qRes)))
+	{
+		for (int j = 0; j < num_fields; j++)
+		{
+			if (row[j] != NULL)
+			{
+				tab[i][j] = row[j];
+			}
+			else
+			{
+				tab[i][j] = " ";
+			}
+		}
+		i++;
+	}
+
+	if (qRes != NULL)
+	{
+		mysql_free_result(qRes);
+	}
+	mysql_close(handler);
+
+}

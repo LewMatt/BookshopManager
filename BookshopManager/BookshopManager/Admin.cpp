@@ -69,47 +69,9 @@ void Admin::showBooks()
 
 	string tab_h[5] = { "id","Title","Author","Type","Release date" };
 
-	for (int i = 0; i < tab_rows; i++)
-	{
-		string var = to_string(i);
+	string q = "SELECT * FROM books_all ORDER BY book_id;";
 
-		for (int j = 0; j < tab_cols; j++)
-		{
-			switch (j)
-			{
-			case 0:
-			{
-				string element = "SELECT book_id FROM books_all ORDER BY book_id limit " + var + ",1;";
-				tab[i][j] = sendQueryRetStr(element.c_str());
-				break;
-			}
-			case 1:
-			{
-				string element = "SELECT title FROM books_all ORDER BY book_id limit " + var + ",1;";
-				tab[i][j] = sendQueryRetStr(element.c_str());
-				break;
-			}
-			case 2:
-			{
-				string element = "SELECT author FROM books_all ORDER BY book_id limit " + var + ",1;";
-				tab[i][j] = sendQueryRetStr(element.c_str());
-				break;
-			}
-			case 3:
-			{
-				string element = "SELECT type FROM books_all ORDER BY book_id limit " + var + ",1;";
-				tab[i][j] = sendQueryRetStr(element.c_str());
-				break;
-			}
-			case 4:
-			{
-				string element = "SELECT release_date FROM books_all ORDER BY book_id limit " + var + ",1;";
-				tab[i][j] = sendQueryRetStr(element.c_str());
-				break;
-			}
-			}
-		}
-	}
+	sendQueryRetArr(q.c_str(), tab);
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -227,41 +189,10 @@ void Admin::showBorrowedBooks()
 			books_tab[i] = new string[4];
 		}
 
-		for (int i = 0; i < tab_rows; i++)
-		{
-			string var = to_string(i);
+		string q = "SELECT * FROM books_borrowed ORDER BY book_id;";
 
-			for (int j = 0; j < 4; j++)
-			{
-				switch (j)
-				{
-				case 0:
-				{
-					string element = "SELECT book_id FROM books_borrowed ORDER BY book_id limit " + var + ",1;";
-					books_tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				case 1:
-				{
-					string element = "SELECT title FROM books_borrowed ORDER BY book_id limit " + var + ",1;";
-					books_tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				case 2:
-				{
-					string element = "SELECT client_id FROM books_borrowed ORDER BY book_id limit " + var + ",1;";
-					books_tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				case 3:
-				{
-					string element = "SELECT client_username FROM books_borrowed ORDER BY book_id limit " + var + ",1;";
-					books_tab[i][j] = sendQueryRetStr(element.c_str());
-					break;
-				}
-				}
-			}
-		}
+		sendQueryRetArr(q.c_str(), books_tab);
+
 		system("CLS");
 		for (int i = 0; i < 4; i++)
 		{
