@@ -245,10 +245,10 @@ void Admin::showClients()
 	string rowsQ = "SELECT COUNT(*) FROM users;";
 	int tab_rows = sendQueryRetInt(rowsQ.c_str()) - 1;
 
-	string** books_tab = new string * [tab_rows];
+	string** clients_tab = new string * [tab_rows];
 	for (int i = 0; i < tab_rows; i++)
 	{
-		books_tab[i] = new string[6];
+		clients_tab[i] = new string[6];
 	}
 
 	for (int i = 0; i < tab_rows; i++)
@@ -262,37 +262,37 @@ void Admin::showClients()
 			case 0:
 			{
 				string element = "SELECT user_id FROM users ORDER BY user_id limit " + var + ",1;";
-				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				clients_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 1:
 			{
 				string element = "SELECT user_name FROM users ORDER BY user_id limit " + var + ",1;";
-				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				clients_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 2:
 			{
 				string element = "SELECT first_name FROM users ORDER BY user_id limit " + var + ",1;";
-				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				clients_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 3:
 			{
 				string element = "SELECT last_name FROM users ORDER BY user_id limit " + var + ",1;";
-				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				clients_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 4:
 			{
 				string element = "SELECT email FROM users ORDER BY user_id limit " + var + ",1;";
-				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				clients_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			case 5:
 			{
 				string element = "SELECT phone_number FROM users ORDER BY user_id limit " + var + ",1;";
-				books_tab[i][j] = sendQueryRetStr(element.c_str());
+				clients_tab[i][j] = sendQueryRetStr(element.c_str());
 				break;
 			}
 			}
@@ -311,7 +311,7 @@ void Admin::showClients()
 		for (int j = 0; j < 6; j++)
 		{
 			cout.width(20);
-			cout << left << books_tab[i][j];
+			cout << left << clients_tab[i][j];
 		}
 		cout << endl;
 	}
@@ -338,9 +338,9 @@ void Admin::showClients()
 
 	for (int i = 0; i < tab_rows; i++)
 	{
-		delete[] books_tab[i];
+		delete[] clients_tab[i];
 	}
-	delete[] books_tab;
+	delete[] clients_tab;
 }
 
 Admin::~Admin()

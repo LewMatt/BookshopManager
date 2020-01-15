@@ -278,10 +278,13 @@ int main()
 			loginFunc();
 		}
 
+		Admin* admin_obj = new Admin(loggedUsername, loggedPassword);
+		Client* client_obj = new Client(loggedUsername, loggedPassword);
+		User* pointer = client_obj;
+
 		while (loggedIn == true)
 		{
-			Admin* admin_obj = new Admin(loggedUsername, loggedPassword);
-			Client* client_obj = new Client(loggedUsername, loggedPassword);
+
 			bool adminLoggedIn = false;
 
 			if (loggedUsername == "admin")
@@ -291,7 +294,7 @@ int main()
 
 			if (adminLoggedIn)
 			{
-				User* pointer = admin_obj;
+				pointer = admin_obj;
 				switch (pointer->showMenu())
 				{
 				case 1:
@@ -311,10 +314,7 @@ int main()
 				}
 				case 9:
 				{
-
-					delete admin_obj;
-					delete client_obj;
-					delete pointer;
+					cout << endl << "Logged out" << endl;
 					loggedIn = false;
 					break;
 				}
@@ -322,7 +322,6 @@ int main()
 			}
 			else
 			{
-				User* pointer = client_obj;
 				switch (pointer->showMenu())
 				{
 				case 1:
@@ -343,14 +342,14 @@ int main()
 				case 9:
 				{
 					cout << endl << "Logged out" << endl;
-					delete admin_obj;
-					delete client_obj;
-					delete pointer;
 					loggedIn = false;
 					break;
 				}
 				}
 			}
 		}
+		delete admin_obj;
+		delete client_obj;
+		delete pointer;
 	}
 }
