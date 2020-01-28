@@ -30,6 +30,10 @@ public:
 	int sendQueryRetInt(string);
 	void sendQuery(string);
 	void sendQueryRetArr(string, string*[]);
+	void setFirstName(string);
+	void setLastName(string);
+	void setEmail(string);
+	void setPhoneNumber(int);
 };
 
 #endif

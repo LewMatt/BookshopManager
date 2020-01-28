@@ -196,3 +196,23 @@ void User::sendQueryRetArr(string x, string *tab[])
 	mysql_close(handler);
 
 }
+
+void User::setFirstName(string x)
+{
+	this->first_name = x;
+}
+
+void User::setLastName(string x)
+{
+	this->last_name = x;
+}
+
+void User::setEmail(string x)
+{
+	this->email = x;
+}
+
+void User::setPhoneNumber(int x)
+{
+	this->phone_number = x;
+}

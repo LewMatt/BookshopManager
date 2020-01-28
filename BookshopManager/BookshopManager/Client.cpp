@@ -349,6 +349,7 @@ void Client::showMyDetails(Client* obj)
 					cin >> inp;
 					string que = "UPDATE users SET first_name = '" + inp + "' where user_name = '" + obj->getUsername() + "';";
 					sendQuery(que.c_str());
+					obj->setFirstName(inp);
 					break;
 				}
 				else if (ch == "2")
@@ -358,6 +359,7 @@ void Client::showMyDetails(Client* obj)
 					cin >> inp;
 					string que = "UPDATE users SET last_name = '" + inp + "' where user_name = '" + obj->getUsername() + "';";
 					sendQuery(que.c_str());
+					obj->setLastName(inp);
 					break;
 				}
 				else if (ch == "3")
@@ -367,6 +369,7 @@ void Client::showMyDetails(Client* obj)
 					cin >> inp;
 					string que = "UPDATE users SET email = '" + inp + "' where user_name = '" + obj->getUsername() + "';";
 					sendQuery(que.c_str());
+					obj->setEmail(inp);
 					break;
 				}
 				else if (ch == "4")
@@ -385,6 +388,7 @@ void Client::showMyDetails(Client* obj)
 					
 					string que = "UPDATE users SET phone_number = " + to_string(inp) + " where user_name = '" + obj->getUsername() + "';";
 					sendQuery(que.c_str());
+					obj->setPhoneNumber(inp);
 					break;
 				}
 				else
@@ -441,6 +445,7 @@ void Client::showMyDetails(Client* obj)
 						{
 							string que = "UPDATE users SET user_password = '" + pw1 + "' WHERE user_name = '" + obj->getUsername() + "';";
 							sendQuery(que.c_str());
+							obj->setPassword(pw1);
 							break;
 						}
 						else
